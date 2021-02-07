@@ -54,8 +54,6 @@ class Auto():
 
         redirect_url += "&accessed=%s" % urllib.parse.quote(request.url)
 
-        req = self.fhdhr.api.get(redirect_url)
-
         def generate():
 
             try:
@@ -64,7 +62,7 @@ class Auto():
 
                 while True:
 
-                    for chunk in req.iter_content(chunk_size=self.bytes_per_read):
+                    for chunk in self.fhdhr.api.get(redirect_url, chunk_size=self.bytes_per_read):
 
                         if not chunk:
                             break
@@ -77,7 +75,6 @@ class Auto():
             except Exception as e:
                 self.fhdhr.logger.info("Internal API Connection Closed: %s" % e)
             finally:
-                req.close()
                 self.fhdhr.logger.info("Internal API Connection Closed.")
 
         return Response(stream_with_context(generate()))
