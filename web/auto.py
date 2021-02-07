@@ -54,7 +54,7 @@ class Auto():
 
         redirect_url += "&accessed=%s" % urllib.parse.quote(request.url)
 
-        req = self.fhdhr.api.get(redirect_url, stream=True)
+        req = self.fhdhr.api.get(redirect_url)
 
         def generate():
 
