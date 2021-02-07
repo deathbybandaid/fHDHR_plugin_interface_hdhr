@@ -1,4 +1,4 @@
-from flask import request, abort, redirect
+from flask import request, abort, Response, stream_with_context
 import urllib.parse
 
 
@@ -8,6 +8,8 @@ class Auto():
 
     def __init__(self, fhdhr):
         self.fhdhr = fhdhr
+
+        self.bytes_per_read = int(self.fhdhr.config.dict["streaming"]["bytes_per_read"])
 
     @property
     def source(self):
@@ -52,4 +54,30 @@ class Auto():
 
         redirect_url += "&accessed=%s" % urllib.parse.quote(request.url)
 
-        return redirect(redirect_url)
+        req = self.fhdhr.api.get(redirect_url, stream=True)
+
+        def generate():
+
+            try:
+
+                chunk_counter = 1
+
+                while True:
+
+                    for chunk in req.iter_content(chunk_size=self.bytes_per_read):
+
+                        if not chunk:
+                            break
+                        yield chunk
+
+                        chunk_counter += 1
+
+            except GeneratorExit:
+                self.fhdhr.logger.info("Internal API Connection Closed.")
+            except Exception as e:
+                self.fhdhr.logger.info("Internal API Connection Closed: %s" % e)
+            finally:
+                req.close()
+                self.fhdhr.logger.info("Internal API Connection Closed.")
+
+        return Response(stream_with_context(generate()))
