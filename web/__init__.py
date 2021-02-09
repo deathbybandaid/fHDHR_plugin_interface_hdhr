@@ -1,8 +1,12 @@
 
+from .discover_json import Discover_JSON
+from .discover_json_origin import Discover_JSON_Origin
+
+from .lineup_json import Lineup_JSON
+from .lineup_json_origin import Lineup_JSON_Origin
 
 from .lineup_xml import Lineup_XML
-from .discover_json import Discover_JSON
-from .lineup_json import Lineup_JSON
+
 from .lineup_status_json import Lineup_Status_JSON
 
 from .lineup_post import Lineup_Post
@@ -27,6 +31,10 @@ class Plugin_OBJ():
 
         self.lineup_xml = Lineup_XML(fhdhr)
 
-        self.discover_json = Discover_JSON(fhdhr)
-        self.lineup_json = Lineup_JSON(fhdhr)
         self.lineup_status_json = Lineup_Status_JSON(fhdhr)
+
+        self.discover_json = Discover_JSON(fhdhr)
+        self.discover_json_origin = Discover_JSON_Origin(fhdhr)
+
+        self.lineup_json = Lineup_JSON(fhdhr)
+        self.lineup_json_origin = Lineup_JSON_Origin(fhdhr)

@@ -7,7 +7,7 @@ from fHDHR.tools import sub_el
 
 class HDHR_Device_XML():
     endpoints = ["/hdhr/<origin>/device.xml"]
-    endpoint_name = "hdhr_device_xml"
+    endpoint_name = "hdhr_device_xml_origin"
 
     def __init__(self, fhdhr):
         self.fhdhr = fhdhr
@@ -30,7 +30,7 @@ class HDHR_Device_XML():
             origin_plugin_name = self.fhdhr.origins.origins_dict[origin].plugin_utils.plugin_name
             origin_plugin_version = self.fhdhr.origins.origins_dict[origin].plugin_utils.plugin_manifest["version"]
 
-            sub_el(out, 'URLBase', "%s/hdhr/%s%s" % (base_url, self.fhdhr.config.dict["main"]["uuid"], origin))
+            sub_el(out, 'URLBase', "%s/hdhr/%s" % (base_url, origin))
 
             specVersion_out = sub_el(out, 'specVersion')
             sub_el(specVersion_out, 'major', "1")
