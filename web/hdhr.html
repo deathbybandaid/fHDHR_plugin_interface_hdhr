@@ -12,10 +12,10 @@
           <th>URL to Add to Client (Plex/Emby/Channels)</th>
         </tr>
 
-        {% for origin in origin_methods %}
+        {% for origindict in origin_dict_list %}
           <tr>
-            <td>{{ origin }}</td>
-            <td>{{ base_url }}/hdhr/{{ origin }}</td>
+            <td>{{ origindict["name"] }}</td>
+            <td>{{ origindict["url"] }}</td>
           </tr>
         {% endfor %}
       </tbody>
