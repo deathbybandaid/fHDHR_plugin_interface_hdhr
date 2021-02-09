@@ -3,18 +3,27 @@ import urllib.parse
 
 
 class Auto():
-    endpoints = ['/hdhr/<origin>/auto/<channel>']
+    endpoints = ['/auto/<channel>', '/hdhr/auto/<channel>']
     endpoint_name = "hdhr_auto"
 
     def __init__(self, fhdhr):
         self.fhdhr = fhdhr
 
-    def __call__(self, origin, channel, *args):
-        return self.get(origin, channel, *args)
+    def __call__(self, channel, *args):
+        return self.get(channel, *args)
 
-    def get(self, origin, channel, *args):
+    @property
+    def source(self):
+        if self.fhdhr.config.dict["hdhr"]["source"]:
+            return self.fhdhr.config.dict["hdhr"]["source"]
+        elif len(self.fhdhr.origins.valid_origins):
+            return self.fhdhr.origins.valid_origins[0]
+        else:
+            return None
 
-        if origin in self.fhdhr.origins.valid_origins:
+    def get(self, channel, *args):
+
+        if self.source in self.fhdhr.origins.valid_origins:
 
             redirect_url = "/api/tuners?method=stream"
 
@@ -35,8 +44,8 @@ class Auto():
                 channel_number = channel
 
             redirect_url += "&channel=%s" % str(channel_number)
-            redirect_url += "&origin=%s" % str(origin)
-            redirect_url += "&stream_method=%s" % self.fhdhr.origins.origins_dict[origin].stream_method
+            redirect_url += "&origin=%s" % str(self.source)
+            redirect_url += "&stream_method=%s" % self.fhdhr.origins.origins_dict[self.source].stream_method
 
             duration = request.args.get('duration', default=0, type=int)
             if duration:
