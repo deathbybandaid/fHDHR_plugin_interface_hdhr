@@ -33,7 +33,7 @@ class Plugin_OBJ():
         self.plugin_utils = plugin_utils
 
         self.device_xml = HDHR_Device_XML(fhdhr)
-        self.hdhr_html = HDHR_HTML(fhdhr)
+        self.hdhr_html = HDHR_HTML(fhdhr, plugin_utils)
 
         self.discover_json = Discover_JSON(fhdhr)
         self.discover_json_origin = Discover_JSON_Origin(fhdhr)
