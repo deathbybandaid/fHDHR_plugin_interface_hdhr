@@ -3,19 +3,18 @@ import urllib.parse
 
 
 class Tuner():
-    endpoints = ['/hdhr/<devicekey>/tuner<tuner_number>/<channel>']
+    endpoints = ['/hdhr/<origin>/tuner<tuner_number>/<channel>']
     endpoint_name = "hdhr_tuner"
 
     def __init__(self, fhdhr):
         self.fhdhr = fhdhr
 
-    def __call__(self, devicekey, tuner_number, channel, *args):
-        return self.get(devicekey, tuner_number, channel, *args)
+    def __call__(self, origin, tuner_number, channel, *args):
+        return self.get(origin, tuner_number, channel, *args)
 
-    def get(self, devicekey, tuner_number, channel, *args):
+    def get(self, origin, tuner_number, channel, *args):
 
-        if devicekey.startswith(self.fhdhr.config.dict["main"]["uuid"]):
-            origin = devicekey.split(self.fhdhr.config.dict["main"]["uuid"])[-1]
+        if origin in self.fhdhr.origins.valid_origins:
 
             redirect_url = "/api/tuners?method=stream"
 

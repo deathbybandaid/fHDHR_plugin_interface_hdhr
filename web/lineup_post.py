@@ -4,20 +4,19 @@ from fHDHR.exceptions import TunerError
 
 
 class Lineup_Post():
-    endpoints = ["/hdhr/<devicekey>/lineup.post"]
+    endpoints = ["/hdhr/<origin>/lineup.post"]
     endpoint_name = "hdhr_lineup_post"
     endpoint_methods = ["POST"]
 
     def __init__(self, fhdhr):
         self.fhdhr = fhdhr
 
-    def __call__(self, devicekey, *args):
-        return self.get(devicekey, *args)
+    def __call__(self, origin, *args):
+        return self.get(origin, *args)
 
-    def get(self, devicekey, *args):
+    def get(self, origin, *args):
 
-        if devicekey.startswith(self.fhdhr.config.dict["main"]["uuid"]):
-            origin = devicekey.split(self.fhdhr.config.dict["main"]["uuid"])[-1]
+        if origin in self.fhdhr.origins.valid_origins:
 
             if 'scan' in list(request.args.keys()):
 

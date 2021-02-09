@@ -3,19 +3,18 @@ import json
 
 
 class Lineup_Status_JSON():
-    endpoints = ["/hdhr/<devicekey>/lineup_status.json"]
+    endpoints = ["/hdhr/<origin>/lineup_status.json"]
     endpoint_name = "hdhr_lineup_status_json"
 
     def __init__(self, fhdhr):
         self.fhdhr = fhdhr
 
-    def __call__(self, devicekey, *args):
-        return self.get(devicekey, *args)
+    def __call__(self, origin, *args):
+        return self.get(origin, *args)
 
-    def get(self, devicekey, *args):
+    def get(self, origin, *args):
 
-        if devicekey.startswith(self.fhdhr.config.dict["main"]["uuid"]):
-            origin = devicekey.split(self.fhdhr.config.dict["main"]["uuid"])[-1]
+        if origin in self.fhdhr.origins.valid_origins:
 
             tuner_status = self.fhdhr.device.tuners.status(origin)
             tuners_scanning = 0

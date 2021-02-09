@@ -28,8 +28,8 @@ class Discover_JSON():
                                 "FirmwareVersion": self.fhdhr.config.dict["hdhr"]["reporting_firmware_ver"],
                                 "DeviceID": "%s%s" % (self.fhdhr.config.dict["main"]["uuid"], origin),
                                 "DeviceAuth": self.fhdhr.config.dict["fhdhr"]["device_auth"],
-                                "BaseURL": "%s/hdhr/%s%s" % (base_url, self.fhdhr.config.dict["main"]["uuid"], origin),
-                                "LineupURL": "%s/hdhr/%s%s/lineup.json" % base_url
+                                "BaseURL": "%s/hdhr/%s" % (base_url, origin),
+                                "LineupURL": "%s/hdhr/%s/lineup.json" % (base_url, origin)
                             }
             jsondiscover.append(origindiscover)
 

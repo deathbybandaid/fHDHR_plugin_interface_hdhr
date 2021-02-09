@@ -20,7 +20,7 @@ class Plugin_OBJ():
         data = ''
         data_command = "NOTIFY * HTTP/1.1"
 
-        device_xml_path = "/hdhr/%s%s/device.xml" % (self.fhdhr.config.dict["main"]["uuid"], origin)
+        device_xml_path = "/hdhr/%s/device.xml" % origin
 
         data_dict = {
                     "HOST": "%s:%s" % ("239.255.255.250", 1900),

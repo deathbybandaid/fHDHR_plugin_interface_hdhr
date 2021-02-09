@@ -6,7 +6,7 @@ from fHDHR.tools import sub_el
 
 
 class HDHR_Device_XML():
-    endpoints = ["/hdhr/<devicekey>/device.xml"]
+    endpoints = ["/hdhr/<origin>/device.xml"]
     endpoint_name = "hdhr_device_xml"
 
     def __init__(self, fhdhr):
@@ -14,10 +14,10 @@ class HDHR_Device_XML():
 
         self.schema = "urn:schemas-upnp-org:device:MediaServer:1"
 
-    def __call__(self, devicekey, *args):
-        return self.get(devicekey, *args)
+    def __call__(self, origin, *args):
+        return self.get(origin, *args)
 
-    def get(self, devicekey, *args):
+    def get(self, origin, *args):
         """Device.xml referenced from SSDP"""
 
         base_url = request.url_root[:-1]
@@ -25,8 +25,7 @@ class HDHR_Device_XML():
         out = xml.etree.ElementTree.Element('root')
         out.set('xmlns', "urn:schemas-upnp-org:device-1-0")
 
-        if devicekey.startswith(self.fhdhr.config.dict["main"]["uuid"]):
-            origin = devicekey.split(self.fhdhr.config.dict["main"]["uuid"])[-1]
+        if origin in self.fhdhr.origins.valid_origins:
 
             origin_plugin_name = self.fhdhr.origins.origins_dict[origin].plugin_utils.plugin_name
             origin_plugin_version = self.fhdhr.origins.origins_dict[origin].plugin_utils.plugin_manifest["version"]

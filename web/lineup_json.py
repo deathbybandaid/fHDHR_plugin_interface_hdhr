@@ -5,16 +5,16 @@ from fHDHR.tools import channel_sort
 
 
 class Lineup_JSON():
-    endpoints = ["/hdhr/<devicekey>/lineup.json"]
+    endpoints = ["/hdhr/<origin>/lineup.json"]
     endpoint_name = "hdhr_lineup_json"
 
     def __init__(self, fhdhr):
         self.fhdhr = fhdhr
 
-    def __call__(self, devicekey, *args):
-        return self.get(devicekey, *args)
+    def __call__(self, origin, *args):
+        return self.get(origin, *args)
 
-    def get(self, devicekey, *args):
+    def get(self, origin, *args):
 
         base_url = request.url_root[:-1]
 
@@ -22,8 +22,7 @@ class Lineup_JSON():
 
         chan_guide = []
 
-        if devicekey.startswith(self.fhdhr.config.dict["main"]["uuid"]):
-            origin = devicekey.split(self.fhdhr.config.dict["main"]["uuid"])[-1]
+        if origin in self.fhdhr.origins.valid_origins:
 
             channelslist = {}
             for fhdhr_id in [x["id"] for x in self.fhdhr.device.channels.get_channels(origin)]:
