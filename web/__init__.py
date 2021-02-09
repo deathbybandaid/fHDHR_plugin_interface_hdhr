@@ -1,6 +1,7 @@
 
 
 from .device_xml import HDHR_Device_XML
+from .hdhr_html import HDHR_HTML
 
 from .discover_json import Discover_JSON
 from .discover_json_origin import Discover_JSON_Origin
@@ -32,6 +33,7 @@ class Plugin_OBJ():
         self.plugin_utils = plugin_utils
 
         self.device_xml = HDHR_Device_XML(fhdhr)
+        self.hdhr_html = HDHR_HTML(fhdhr)
 
         self.discover_json = Discover_JSON(fhdhr)
         self.discover_json_origin = Discover_JSON_Origin(fhdhr)
