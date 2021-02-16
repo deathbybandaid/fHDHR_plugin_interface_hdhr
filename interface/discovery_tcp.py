@@ -31,7 +31,7 @@ class HDHR_Discovery_Service_TCP():
         self.sock.listen(1)
         while True:
 
-            packet, client = self.sock.recvfrom(HDHOMERUN_MAX_PACKET_SIZE)
+            packet, client = self.sock.accept(HDHOMERUN_MAX_PACKET_SIZE)
             if not packet:
                 self.fhdhr.logger.ssdp('No packet received')
                 break
