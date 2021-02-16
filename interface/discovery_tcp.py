@@ -53,7 +53,7 @@ class HDHR_Discovery_Service_TCP():
                     self.fhdhr.logger.ssdp('Get set request received from ' + client[0])
                     responsePacket = self.discovery_shared.getset_responsePacket(origin, requestPayload)
                     if responsePacket:
-                        self.sock.sendto(responsePacket, client)
+                        connection.send(responsePacket)
 
                 elif packetType == HDHOMERUN_TYPE_DISCOVER_RPY:
                     self.fhdhr.logger.ssdp("RPY from %s" % str(client))
