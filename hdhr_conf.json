@@ -45,6 +45,12 @@
                       "config_file": true,
                       "config_web": true,
                       "description": "Determines the Address used by HDHR Discovery, if not set, fHDHR will use the discovery address, or SSDP multicast address, if not set."
-                      }
+                      },
+          "discovery_mode":{
+                    "value": "udp",
+                    "config_file": true,
+                    "config_web": true,
+                    "description": "Determines the Mode used by HDHR Discovery. TCP/UDP"
+                    }
   }
 }
