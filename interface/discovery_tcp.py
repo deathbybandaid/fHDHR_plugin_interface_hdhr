@@ -26,6 +26,7 @@ class HDHR_Discovery_Service_TCP():
     def discovery_service_listen(self):
         self.sock.listen(1)
         while True:
+            print("here")
 
             connection, client = self.sock.accept()
             print(client)
