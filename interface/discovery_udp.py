@@ -30,37 +30,33 @@ class HDHR_Discovery_Service_UDP():
     def discovery_service_listen(self):
         while True:
 
-            try:
+            packet, client = self.sock.recvfrom(HDHOMERUN_MAX_PACKET_SIZE)
+            if not packet:
+                self.fhdhr.logger.ssdp('No packet received')
+                break
+            self.fhdhr.logger.ssdp("Request: %s" % self.discovery_shared.format_packet(packet))
+            (packetType, requestPayload) = self.discovery_shared.retrieveTypeAndPayload(packet)
 
-                packet, client = self.sock.recvfrom(HDHOMERUN_MAX_PACKET_SIZE)
-                if not packet:
-                    self.fhdhr.logger.ssdp('No packet received')
-                    break
-                self.fhdhr.logger.ssdp("Request: %s" % self.discovery_shared.format_packet(packet))
-                (packetType, requestPayload) = self.discovery_shared.retrieveTypeAndPayload(packet)
+            if packetType == HDHOMERUN_TYPE_DISCOVER_REQ:
+                self.fhdhr.logger.ssdp("Discovery request received from %s" % str(client))
 
-                if packetType == HDHOMERUN_TYPE_DISCOVER_REQ:
-                    self.fhdhr.logger.ssdp("Discovery request received from %s" % str(client))
-
-                    for origin in self.plugin_utils.origins.valid_origins:
-                        responsePacket = self.discovery_shared.discover_responsePacket(origin)
-                        if responsePacket:
-                            self.fhdhr.logger.ssdp("Sending %s discovery reply over udp to %s" % (origin, str(client)))
-                            self.sock.sendto(responsePacket, client)
-
-                elif packetType == HDHOMERUN_TYPE_GETSET_REQ:
-                    self.fhdhr.logger.ssdp('Get set request received from ' + client[0])
-                    responsePacket = self.discovery_shared.getset_responsePacket(origin, requestPayload)
+                for origin in self.plugin_utils.origins.valid_origins:
+                    responsePacket = self.discovery_shared.discover_responsePacket(origin)
                     if responsePacket:
+                        self.fhdhr.logger.ssdp("Sending %s discovery reply over udp to %s" % (origin, str(client)))
                         self.sock.sendto(responsePacket, client)
 
-                elif packetType == HDHOMERUN_TYPE_DISCOVER_RPY:
-                    self.fhdhr.logger.ssdp("RPY from %s" % str(client))
+            elif packetType == HDHOMERUN_TYPE_GETSET_REQ:
+                self.fhdhr.logger.ssdp('Get set request received from ' + client[0])
+                responsePacket = self.discovery_shared.getset_responsePacket(origin, requestPayload)
+                if responsePacket:
+                    self.sock.sendto(responsePacket, client)
 
-                else:
-                    self.fhdhr.logger.ssdp("Unknown packet type %s" % str(packetType))
-            except Exception as e:
-                self.fhdhr.logger.ssdp('Exception occured ' + repr(e))
+            elif packetType == HDHOMERUN_TYPE_DISCOVER_RPY:
+                self.fhdhr.logger.ssdp("RPY from %s" % str(client))
+
+            else:
+                self.fhdhr.logger.ssdp("Unknown packet type %s" % str(packetType))
 
         self.sock.close()
 
