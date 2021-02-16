@@ -15,17 +15,13 @@ class HDHR_Discovery_Service_UDP():
 
         self.discovery_shared = HDHR_Discovery_Service_Shared(fhdhr, plugin_utils, interface)
 
-        if self.discovery_shared.hdhr_discovery_address and self.fhdhr.config.dict["hdhr"]["discovery"]:
+        if self.fhdhr.config.dict["hdhr"]["discovery"]:
             self.fhdhr.logger.info("Initializing HDHR UDP Discovery system")
             self.fhdhr.threads["hdhr_udp_discovery"] = threading.Thread(target=self.discovery_service_listen)
             self.setup_discovery()
 
-        elif not self.fhdhr.config.dict["hdhr"]["discovery"]:
-            self.fhdhr.logger.info("HDHR UDP Discovery system will not be Initialized: Not Enabled")
-        elif not self.discovery_shared.hdhr_discovery_address:
-            self.fhdhr.logger.info("HDHR UDP Discovery system will not be Initialized: Address not set in [hdhr]discovery_address [ssdp]multicast_address or [fhdhr]discovery_address")
         else:
-            self.fhdhr.logger.info("HDHR UDP Discovery system will not be Initialized")
+            self.fhdhr.logger.info("HDHR UDP Discovery system will not be Initialized: Not Enabled")
 
     def discovery_service_listen(self):
 

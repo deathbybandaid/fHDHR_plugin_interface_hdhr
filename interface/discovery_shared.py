@@ -34,16 +34,6 @@ class HDHR_Discovery_Service_Shared():
         self.plugin_utils = plugin_utils
         self.interface = interface
 
-    @property
-    def hdhr_discovery_address(self):
-        if self.fhdhr.config.dict["hdhr"]["discovery_address"]:
-            return self.fhdhr.config.dict["hdhr"]["discovery_address"]
-        elif self.fhdhr.config.dict["ssdp"]["multicast_address"]:
-            return self.fhdhr.config.dict["ssdp"]["multicast_address"]
-        elif self.fhdhr.config.dict["fhdhr"]["discovery_address"]:
-            return self.fhdhr.config.dict["fhdhr"]["discovery_address"]
-        return None
-
     def getset_responsePacket(self, requestPayload):
         getSetName = None
         getSetValue = None
@@ -96,7 +86,7 @@ class HDHR_Discovery_Service_Shared():
         return packet
 
     def discover_responsePacket(self, origin):
-        BaseUrl = "%s:%s/hdhr/%s" % (self.hdhr_discovery_address, self.fhdhr.api.port, origin)
+        BaseUrl = "%s/hdhr/%s" % (self.fhdhr.api.base, origin)
         uid = self.interface.get_origin_uid(origin)
         device_id = int(uid[:8], 16)  # Hex string to int
         tuner_count = self.plugin_utils.origins.origins_dict[origin].tuners
