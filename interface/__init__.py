@@ -2,7 +2,7 @@ import os
 import uuid
 
 from .discovery_udp import HDHR_Discovery_Service_UDP
-from .discover_tcp import HDHR_Discovery_Service_TCP
+from .discovery_tcp import HDHR_Discovery_Service_TCP
 
 
 from fHDHR.tools import isint, isfloat, channel_sort
