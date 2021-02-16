@@ -66,8 +66,5 @@ class HDHR_Discovery_Service_UDP():
 
     def setup_discovery(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
-
-        # Enable broadcasting mode
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         self.sock.bind(('0.0.0.0', HDHOMERUN_DISCOVER_UDP_PORT))
