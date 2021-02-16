@@ -28,12 +28,14 @@ class HDHR_Discovery_Service_UDP():
             self.fhdhr.logger.info("HDHR UDP Discovery system will not be Initialized")
 
     def discovery_service_listen(self):
+
         while True:
 
-            packet, client = self.sock.recvfrom(HDHOMERUN_MAX_PACKET_SIZE)
+            packet, client = self.sock.accept(HDHOMERUN_MAX_PACKET_SIZE)
             if not packet:
                 self.fhdhr.logger.ssdp('No packet received')
                 break
+
             self.fhdhr.logger.ssdp("Request: %s" % self.discovery_shared.format_packet(packet))
             (packetType, requestPayload) = self.discovery_shared.retrieveTypeAndPayload(packet)
 

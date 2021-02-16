@@ -35,6 +35,7 @@ class HDHR_Discovery_Service_TCP():
             if not packet:
                 self.fhdhr.logger.ssdp('No packet received')
                 break
+
             self.fhdhr.logger.ssdp("Request: %s" % self.discovery_shared.format_packet(packet))
             (packetType, requestPayload) = self.discovery_shared.retrieveTypeAndPayload(packet)
 
