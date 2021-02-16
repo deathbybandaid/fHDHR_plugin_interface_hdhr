@@ -28,12 +28,14 @@ class HDHR_Discovery_Service_TCP():
         while True:
 
             connection, client = self.sock.accept()
+            print(client)
 
             try:
                 packet = connection.recv(HDHOMERUN_MAX_PACKET_SIZE)
                 if not packet:
                     self.fhdhr.logger.ssdp('No packet received')
                     break
+                print(packet)
 
                 self.fhdhr.logger.ssdp("Request: %s" % self.discovery_shared.format_packet(packet))
                 (packetType, requestPayload) = self.discovery_shared.retrieveTypeAndPayload(packet)
