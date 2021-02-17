@@ -31,8 +31,8 @@ class HDHR_Discovery_Service_UDP():
             if not packet:
                 self.fhdhr.logger.ssdp('No packet received')
                 break
-            print(packet)
-            print(client)
+
+            print(self.sock.gethostbyaddr())
 
             self.fhdhr.logger.ssdp("Request: %s" % self.discovery_shared.format_packet(packet))
             (packetType, requestPayload) = self.discovery_shared.retrieveTypeAndPayload(packet)
