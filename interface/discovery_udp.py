@@ -32,10 +32,10 @@ class HDHR_Discovery_Service_UDP():
                 self.fhdhr.logger.ssdp('No packet received')
                 break
 
-            print(self.sock.gethostbyaddr())
-
             self.fhdhr.logger.ssdp("Request: %s" % self.discovery_shared.format_packet(packet))
             (packetType, requestPayload) = self.discovery_shared.retrieveTypeAndPayload(packet)
+            print(requestPayload)
+            print(packetType)
 
             if packetType == HDHOMERUN_TYPE_DISCOVER_REQ:
                 self.fhdhr.logger.ssdp("Discovery request received from %s" % str(client))
