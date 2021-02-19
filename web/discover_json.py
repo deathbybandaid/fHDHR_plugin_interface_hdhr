@@ -18,6 +18,15 @@ class Discover_JSON():
 
         base_url = request.url_root[:-1]
 
+        origindiscover_list = []
+        for origin in self.fhdhr.origins.valid_origins:
+            origindiscover = self.interface.get_discover_dict(origin, base_url)
+            origindiscover_list.append(origindiscover)
+
+        return Response(status=200,
+                        response=json.dumps(origindiscover_list, indent=4),
+                        mimetype='application/json')
+
         origindiscover = {}
         if self.interface.source in self.fhdhr.origins.valid_origins:
             origindiscover = self.interface.get_discover_dict(self.interface.source, base_url)
